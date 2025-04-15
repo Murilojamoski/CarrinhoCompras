@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import {carrinho, Livro} from './carrinho'
+  import {carrinho, Livro} from '../Carrinho'
 
   const Livros = ref<Livro[]>([
     {
@@ -32,11 +32,11 @@
       imagem: "https://cdl-static.s3-sa-east-1.amazonaws.com/covers/gg/9788535914849/1984.jpg"
     }
 
+  ])
+
     function adicionarAoCarrinho(livro: Livro) {
      carrinho.value.push(livro)
     }
-  ])
-
 </script>
 
 <template>
