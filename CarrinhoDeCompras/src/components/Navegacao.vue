@@ -1,44 +1,57 @@
 <template>
-    <nav>
+  <nav>
+    <router-link to="/">
       <span><p>IFbooks</p></span>
-      <input type="text" placeholder="Pesquisar">
-      <ul>
+    </router-link>
+    <input type="text" placeholder="Pesquisar">
+    <ul>
+      <router-link to="/termos">
         <li>Termos</li>
+      </router-link>
+      <router-link to="/equipe">
         <li>Equipe</li>
+      </router-link>
+      <router-link to="/envio">
         <li>Envio</li>
-        <li>Devoluçoes</li>
-        <li><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16">
-  <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z"/>
-  <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
-</svg></li>
-      </ul>
-    </nav>
+      </router-link>
+      <router-link to="/devolucoes">
+        <li>Devoluções</li>
+      </router-link>
+      <router-link to="/carrinho">
+        <li>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16">
+            <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z"/>
+            <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+          </svg>
+        </li>
+      </router-link>
+    </ul>
+  </nav>
 </template>
 
 <style scoped>
-  nav{
+  nav {
     display: flex;
     justify-content: center;
+    align-items: center; /* Alinhar os itens verticalmente, se necessário */
   }
- ul{
-  display: flex;
-  
- }
- li{
-  list-style: none;
-  margin: 10px 100px 10px 100px;
-  font-size: 0.8vw;
- }
- span{
-  p{
-    font-size: 1vw;
+  ul {
+    display: flex;
   }
- }
- input{
-  padding: 10px 10vw 0 0;
-  margin: 0.7vw 100px 10px 100px;
-  height: 40px;
-  font-size: 0.8vw;
- }
-
+  li {
+    list-style: none;
+    margin: 10px 100px 10px 100px;
+    font-size: 0.8vw;
+  }
+  span {
+    p {
+      font-size: 1vw;
+    }
+  }
+  input {
+    padding: 10px 10vw 0 0;
+    margin: 0.7vw 100px 10px 100px;
+    height: 40px;
+    font-size: 0.8vw;
+  }
 </style>
