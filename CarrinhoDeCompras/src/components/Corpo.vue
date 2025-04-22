@@ -40,12 +40,22 @@
       SinopseAberta.value = SinopseAberta.value === titulo? null : titulo
     }
 
+    const showModal = ref(false)
+
     function adicionarAoCarrinho(livro: Livro) {
-     carrinho.value.push(livro)
-    }
+    carrinho.value.push(livro)
+    showModal.value = true
+
+    setTimeout(() => {
+      showModal.value = false
+    }, 2000)
+}
 </script>
 
 <template>
+  <div v-if="showModal" class="modal">
+   Livro adicionado ao carrinho!
+  </div>
   <div class="Corpo">
     <div v-for="livro in Livros">
         <img :src=" livro.imagem" alt="">
@@ -86,6 +96,20 @@
     color: #27AE60;
     font-size: 0.8vw;
   }
+
+  .modal {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #2ecc71;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  z-index: 999;
+  font-size: 1vw;
+  transition: opacity 0.3s ease;
+}
 
  
 </style>
