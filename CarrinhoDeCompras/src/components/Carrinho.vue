@@ -21,6 +21,12 @@ const agrupados = computed(()=>{
   return resultado
 })
 
+const removerItem = (titulo: string)=>{
+  const filtro = carrinho.value.findIndex(livro => livro.titulo === titulo)
+  if(filtro !== -1){
+    carrinho.value.splice(filtro, 1)
+  }
+}
 
 const total = computed(()=>{
   return agrupados.value.reduce((soma, item) => soma + item.preco * item.quantidade, 0)
@@ -35,7 +41,8 @@ const total = computed(()=>{
     </div>
     <div v-else>
       <div v-for="livro in agrupados">
-        <p>{{ livro.quantidade }}x {{ livro.titulo }} - R$ {{ (livro.preco * livro.quantidade).toFixed(2) }}</p>      
+        <p>{{ livro.quantidade }}x {{ livro.titulo }} - R$ {{ (livro.preco * livro.quantidade).toFixed(2) }}</p>  
+        <button @click="removerItem(livro.titulo)">Remover</button>    
       </div>
       <p><strong>Total:</strong> R$ {{ total.toFixed(2) }}</p>
     </div>

@@ -6,11 +6,10 @@ import Carrinho from './components/Carrinho.vue';
 
 <template>
 
- <Navegacao />
-  <Corpo />
-  <Carrinho />
+<Navegacao />
+<Corpo />
+<Carrinho />
   
-
 </template>
 
 <style scoped>
