@@ -30,28 +30,43 @@
 </template>
 
 <style scoped>
-  nav {
-    display: flex;
-    justify-content: center;
-    align-items: center; /* Alinhar os itens verticalmente, se necessário */
-  }
-  ul {
-    display: flex;
-  }
-  li {
-    list-style: none;
-    margin: 10px 100px 10px 100px;
-    font-size: 0.8vw;
-  }
-  span {
-    p {
-      font-size: 1vw;
-    }
-  }
-  input {
-    padding: 10px 10vw 0 0;
-    margin: 0.7vw 100px 10px 100px;
-    height: 40px;
-    font-size: 0.8vw;
-  }
+ nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1vw 2vw;
+  background-color: #F9FAFB;
+  color: white;
+  border-bottom: solid #4A90E2 2px;
+}
+
+nav input {
+  height: 36px;
+  width: 300px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+nav ul {
+  display: flex;
+  gap: 2vw;
+}
+
+nav li {
+  list-style: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.2s;
+  color: #2C3E50;
+}
+
+nav li:hover {
+  color: #415a74;
+}
+
+a{
+  text-decoration: none;
+}
 </style>
