@@ -1,9 +1,42 @@
+<script setup lang="ts">
+  import { ref, computed } from 'vue'
+  import { Livros, type Livro } from '../Livros'
+  import { carrinho } from '@/Carrinho'
+
+  const pesquisa = ref('')
+
+  const livrosFiltrados = computed(() => {
+    if (pesquisa.value === '') {
+      return 
+    } else {
+
+      return Livros.value.filter((livro) => 
+        livro.titulo.charAt(0).toLowerCase() === pesquisa.value.charAt(0).toLowerCase() || 
+        livro.autor.charAt(0).toLowerCase() === pesquisa.value.charAt(0).toLowerCase()
+      );
+    }
+  })
+
+  const adicionarAoCarrinho = (livro: Livro) => {
+    carrinho.value.push(livro); 
+  };
+
+
+</script>
+
+
+
 <template>
   <nav>
     <router-link to="/">
       <span><p>IFbooks</p></span>
     </router-link>
-    <input type="text" placeholder="Pesquisar">
+    
+    <input 
+      type="text" 
+      placeholder="Pesquisar" 
+      v-model="pesquisa"
+    >
     <ul>
       <router-link to="/termos">
         <li>Termos</li>
@@ -27,7 +60,19 @@
       </router-link>
     </ul>
   </nav>
+
+  <!-- Lista de livros filtrados -->
+  <div class="livros">
+    <div v-for="(livro, index) in livrosFiltrados" :key="index" class="livro-card">
+      <img :src="livro.imagem" alt="">
+      <h2>{{ livro.titulo }}</h2>
+      <span>{{ livro.autor }}</span>
+      <p>R$ {{ livro.preco }}</p>
+      <button @click="adicionarAoCarrinho(livro)">Adicionar ao Carrinho</button>
+    </div>
+  </div>
 </template>
+
 
 <style scoped>
  nav {
@@ -69,4 +114,6 @@ nav li:hover {
 a{
   text-decoration: none;
 }
+
+
 </style>

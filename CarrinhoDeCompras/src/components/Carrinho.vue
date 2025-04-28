@@ -21,7 +21,7 @@ const agrupados = computed(()=>{
   return resultado
 })
 
-const removerItem = (titulo: string)=>{
+const removerItem = (titulo: string)=>{   
   const filtro = carrinho.value.findIndex(livro => livro.titulo === titulo)
   if(filtro !== -1){
     carrinho.value.splice(filtro, 1)
