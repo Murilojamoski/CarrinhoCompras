@@ -16,16 +16,12 @@
       livroModal.value = null
     }
 
-    const showModal = ref(false)
-
     function adicionarAoCarrinho(livro: Livro) {
     carrinho.value.push(livro)
-    showModal.value = true
 
     setTimeout(() => {
       router.push('/carrinho')
     }, 1000)
-
     }
 </script>
 

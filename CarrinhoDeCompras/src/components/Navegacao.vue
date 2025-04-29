@@ -2,8 +2,12 @@
   import { ref, computed } from 'vue'
   import { Livros, type Livro } from '../Livros'
   import { carrinho } from '@/Carrinho'
+  import { useRouter } from 'vue-router'
+
+  const router = useRouter()
 
   const pesquisa = ref('')
+  const emFoco = ref(false)
 
   const livrosFiltrados = computed(() => {
     if (pesquisa.value === '') {
@@ -11,15 +15,24 @@
     } else {
 
       return Livros.value.filter((livro) => 
-        livro.titulo.charAt(0).toLowerCase() === pesquisa.value.charAt(0).toLowerCase() || 
-        livro.autor.charAt(0).toLowerCase() === pesquisa.value.charAt(0).toLowerCase()
+        livro.titulo.charAt(0).toLowerCase() === pesquisa.value.charAt(0).toLowerCase()
       );
     }
   })
 
-  const adicionarAoCarrinho = (livro: Livro) => {
-    carrinho.value.push(livro); 
-  };
+  function adicionarAoCarrinho(livro: Livro) {
+    carrinho.value.push(livro)
+
+    setTimeout(() => {
+      router.push('/carrinho')
+    }, 1000)
+  }
+
+  function desfocarComAtraso() {
+  setTimeout(() => {
+    emFoco.value = false
+  }, 200)
+}
 
 
 </script>
@@ -32,11 +45,25 @@
       <span><p>IFbooks</p></span>
     </router-link>
     
+    <div>
     <input 
       type="text" 
       placeholder="Pesquisar" 
       v-model="pesquisa"
+      @focus="emFoco = true"
+      @blur="desfocarComAtraso"
     >
+    <div class="livros" v-show="emFoco">
+        <div v-for="(livro, index) in livrosFiltrados" :key="index" class="livro-card">
+          <img :src="livro.imagem" alt="">
+          <h2>{{ livro.titulo }}</h2>
+          <span>{{ livro.autor }}</span>
+          <p>R$ {{ livro.preco }}</p>
+          <button @click="adicionarAoCarrinho(livro)">Adicionar ao Carrinho</button>
+        </div>
+      </div>
+    </div>
+   
     <ul>
       <router-link to="/termos">
         <li>Termos</li>
@@ -61,16 +88,7 @@
     </ul>
   </nav>
 
-  <!-- Lista de livros filtrados -->
-  <div class="livros">
-    <div v-for="(livro, index) in livrosFiltrados" :key="index" class="livro-card">
-      <img :src="livro.imagem" alt="">
-      <h2>{{ livro.titulo }}</h2>
-      <span>{{ livro.autor }}</span>
-      <p>R$ {{ livro.preco }}</p>
-      <button @click="adicionarAoCarrinho(livro)">Adicionar ao Carrinho</button>
-    </div>
-  </div>
+  
 </template>
 
 
@@ -92,6 +110,7 @@ nav input {
   border: none;
   border-radius: 4px;
   font-size: 0.9rem;
+  position: relative;
 }
 
 nav ul {
@@ -115,5 +134,56 @@ a{
   text-decoration: none;
 }
 
+.livros{
+  text-align: center;
+  background-color: #f9fafb00;
+  width: 40rem;
+  position: absolute;
+  z-index: 10;
+}
+
+.livro-card{
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  gap: 2rem;
+  padding: 1rem;
+  border-radius: 20px;
+  background-color: white;
+  margin: 10px 0 0 0;
+  align-items: center;
+}
+
+.livro-card > img{
+  width: 4rem;
+}
+
+.livro-card > p{
+  color: #2C3E50;
+}
+
+.livro-card > h2{
+  color: #2C3E50;
+}
+
+.livro-card > span{
+  color: #2C3E50;
+  
+}
+
+button {
+  background-color: #4A90E2;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin-top: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+
+button:hover {
+  background-color: #446dc5;
+}
 
 </style>
