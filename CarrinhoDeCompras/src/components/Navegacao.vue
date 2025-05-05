@@ -34,10 +34,7 @@
   }, 200)
 }
 
-
 </script>
-
-
 
 <template>
   <nav>
