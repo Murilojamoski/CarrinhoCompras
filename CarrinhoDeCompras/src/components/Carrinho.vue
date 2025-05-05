@@ -1,64 +1,95 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { carrinho } from '../Carrinho'
+import { computed } from "vue";
+import { carrinho } from "../Carrinho";
 
+const agrupados = computed(() => {
+  const resultado: { titulo: string; preco: number; quantidade: number }[] = [];
 
-const agrupados = computed(()=>{
-
-  const resultado : {titulo: string, preco: number, quantidade: number}[]= []
-
-  for(const livro of carrinho.value){
-    const encontrado = resultado.find(item => item.titulo === livro.titulo)
-
-    if(encontrado){
-      encontrado.quantidade++
-    } 
-    else{
-      resultado.push({ titulo: livro.titulo, preco: livro.preco, quantidade: 1})
+  for (const livro of carrinho.value) {
+    const encontrado = resultado.find((item) => item.titulo === livro.titulo);
+    if (encontrado) {
+      encontrado.quantidade++;
+    } else {
+      resultado.push({
+        titulo: livro.titulo,
+        preco: livro.preco,
+        quantidade: 1,
+      });
     }
   }
 
-  return resultado
-})
+  return resultado;
+});
 
-const removerItem = (titulo: string)=>{   
-  const filtro = carrinho.value.findIndex(livro => livro.titulo === titulo)
-  if(filtro !== -1){
-    carrinho.value.splice(filtro, 1)
+
+const adicionarItem = (livro: { titulo: string; preco: number }) => {
+  carrinho.value.push({ ...livro });
+};
+
+const diminuirItem = (titulo: string) => {
+  const index = carrinho.value.findIndex((livro) => livro.titulo === titulo);
+  if (index !== -1) {
+    carrinho.value.splice(index, 1);
   }
-}
+};
 
-const total = computed(()=>{
-  return agrupados.value.reduce((soma, item) => soma + item.preco * item.quantidade, 0)
-})
+const removerItem = (titulo: string) => {
+  carrinho.value = carrinho.value.filter((livro) => livro.titulo !== titulo); 
+};
+
+const total = computed(() => {
+  return agrupados.value.reduce(
+    (soma, item) => soma + item.preco * item.quantidade,
+    0
+  );
+});
+
+const finalizarCompra = () => {
+  alert("Compra finalizada com sucesso!");
+  carrinho.value = [];
+};
+
 </script>
 
 <template>
   <div class="Carrinho">
-      <h1>Itens no carrinho</h1>
-      <div v-if="carrinho.length === 0">
-        <p>Nenhum item adicionado ainda.</p>
-      </div>
-      <div v-else>
-    <hr>
-    <div v-for="livro in agrupados" class="item">
-      <div class="item-info">
-        <h3>{{ livro.titulo }}</h3>
-        <span>Quantidade: {{ livro.quantidade }}</span>
-      </div>
-      <div class="item-preco">
-        <span>R$ {{ (livro.preco * livro.quantidade).toFixed(2) }}</span>
-        <button class="Remover"   @click="removerItem(livro.titulo)"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 30 30">
-    <path d="M 14.984375 2.4863281 A 1.0001 1.0001 0 0 0 14 3.5 L 14 4 L 8.5 4 A 1.0001 1.0001 0 0 0 7.4863281 5 L 6 5 A 1.0001 1.0001 0 1 0 6 7 L 24 7 A 1.0001 1.0001 0 1 0 24 5 L 22.513672 5 A 1.0001 1.0001 0 0 0 21.5 4 L 16 4 L 16 3.5 A 1.0001 1.0001 0 0 0 14.984375 2.4863281 z M 6 9 L 7.7929688 24.234375 C 7.9109687 25.241375 8.7633438 26 9.7773438 26 L 20.222656 26 C 21.236656 26 22.088031 25.241375 22.207031 24.234375 L 24 9 L 6 9 z"></path>
-</svg></button>    
-      </div>
+    <h1>Itens no carrinho</h1>
+    <div v-if="carrinho.length === 0">
+      <p>Nenhum item adicionado ainda.</p>
     </div>
-    <div class="total">
-      <span>Total:</span>
-      <span>R$ {{ total.toFixed(2) }}</span>
+    <div v-else>
+      <hr />
+      <div v-for="livro in agrupados" :key="livro.titulo" class="item">
+        <div class="item-info">
+          <h3>{{ livro.titulo }}</h3>
+          <span>
+            Quantidade: {{ livro.quantidade }}
+            <button @click="adicionarItem(livro)">↑</button>
+            <button @click="diminuirItem(livro.titulo)">↓</button>
+          </span>
+        </div>
+        <div class="item-preco">
+          <span>R$ {{ (livro.preco * livro.quantidade).toFixed(2) }}</span>
+          <button class="Remover" @click="removerItem(livro.titulo)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 30 30">
+              <path
+                d="M 14.984375 2.4863281 A 1.0001 1.0001 0 0 0 14 3.5 L 14 4 L 8.5 4 A 1.0001 1.0001 0 0 0 7.4863281 5 L 6 5 A 1.0001 1.0001 0 1 0 6 7 L 24 7 A 1.0001 1.0001 0 1 0 24 5 L 22.513672 5 A 1.0001 1.0001 0 0 0 21.5 4 L 16 4 L 16 3.5 A 1.0001 1.0001 0 0 0 14.984375 2.4863281 z M 6 9 L 7.7929688 24.234375 C 7.9109687 25.241375 8.7633438 26 9.7773438 26 L 20.222656 26 C 21.236656 26 22.088031 25.241375 22.207031 24.234375 L 24 9 L 6 9 z">
+              </path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="total">
+        <span>Total:</span>
+        <span>R$ {{ total.toFixed(2) }}</span>
+      </div>
+      <button class="btn-checkout" @click="finalizarCompra">
+          Finalizar Compra
+      </button>
+
     </div>
   </div>
-</div>
 </template>
 
 <style>
@@ -68,7 +99,7 @@ const total = computed(()=>{
   padding: 2vw;
   background-color: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .Carrinho h1 {
@@ -89,7 +120,6 @@ const total = computed(()=>{
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease;
 }
-
 
 .Carrinho .item-info {
   display: flex;
@@ -151,9 +181,23 @@ const total = computed(()=>{
   color: #2c3e50;
 }
 
+.Carrinho .item-info button {
+  background-color: transparent;
+  color: #7f8c8d;
+  border: none;
+  padding: 0px 0px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.Carrinho .item-info button:hover {
+  color: #5c6768;
+}
+
+
 .Carrinho .btn-checkout {
   margin-top: 1.5rem;
-  background-color: #27ae60;
+  background-color: #4A90E2;
   color: white;
   border: none;
   padding: 12px 24px;
@@ -164,9 +208,6 @@ const total = computed(()=>{
 }
 
 .Carrinho .btn-checkout:hover {
-  background-color: #1e8c4f;
+  background-color: #3e7cc2;
 }
-
-
-
 </style>
